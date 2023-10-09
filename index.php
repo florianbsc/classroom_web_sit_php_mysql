@@ -16,7 +16,7 @@
 
     <?php include_once('header.php'); ?>
         <h1>Site de recettes</h1>
-
+        <a href="bonjour.php?nom=Dupont&amp;prenom=Jean">Dis-moi bonjour !</a>
         <!-- inclusion des variables et fonctions -->
         <?php
             include_once('var/variables.php');
