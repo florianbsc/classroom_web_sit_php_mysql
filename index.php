@@ -13,19 +13,15 @@
 </head>
 <body class="d-flex flex-column min-vh-100">
     <div class="container">
-
-    <?php include_once('header.php'); ?>
-        <h1>Site de recettes</h1>
-
-        <!-- inclusion des variables et fonctions -->
-        <?php
-            include_once('var/variables.php');
-            include_once('var/functions.php');
-        ?>
-
-        <!-- inclusion de l'entête du site -->
-        <?php include_once('header.php'); ?>
         
+    <!-- inclusion des variables et fonctions -->
+    <?php 
+        include_once('header.php'); 
+        include_once('var/variables.php');
+        include_once('var/functions.php');
+     ?>
+        <h1>Site de recettes</h1>
+       
         <?php foreach(getRecipes($recipes) as $recipe) : ?>
             <article>
                 <h3><?php echo $recipe['title']; ?></h3>
@@ -35,7 +31,8 @@
         <?php endforeach ?>
     </div>
 
+
+</body>
     <!-- inclusion du bas de page du site -->
     <?php include_once('footer.php'); ?>
-</body>
 </html>

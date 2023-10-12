@@ -13,32 +13,33 @@
 <body class="d-flex flex-column min-vh-100">
     <div class="container">
 
-        <?php include_once('header.php'); ?>
+    <?php include_once('header.php'); ?>
         <h1>Contactez nous</h1>
-        <form action="submit_contact.php" method="GET">
+
+        <!-- Paramétrage du formulaire d'envoi de fichier -->
+        <form action="submit_contact.php" method="POST" enctype="multipart/form-data">
             <div class="mb-3">
                 <label for="nom"></label>
-                <input type="text" class="form-control form-control-sm" name="nom" id="nom" placeholder="Nom" size="30" maxlength="20">
+                <input type="text" class="form-control form-control-sm" name="nom" id="nom" placeholder="Nom" size="30" maxlength="20" required>
                 <label for="prenom"></label>
                 <input type="text" class="form-control form-control-sm" name="prenom" id="prenom" placeholder="Prénom" size="30" maxlength="20">
                 <label for="email"></label>
-                <input type="email" class="form-control" id="email" name="email" placeholder="Mail" aria-describedby="email-help">
+                <input type="email" class="form-control" id="email" name="email" placeholder="E-Mail" aria-describedby="email-help">
                 <div id="email-help" class="form-text">Nous ne revendrons pas votre email.</div>
             </div>
             <div class="mb-3">
                 <label for="message" class="form-label">Votre message</label>
                 <textarea class="form-control" placeholder="Exprimez vous" id="message" name="message"></textarea>
             </div>
-            
+            <div class="mb-3">
+                <label for="screenshot" class="form-label">Votre capture d'écran</label>
+                <input type="file" class="form-control" id="screenshot" name="screenshot" />
+            </div>
             <button type="submit" class="btn btn-primary">Envoyer</button>
-
         </form>
         <br />
-
     </div>
-    
 
     <?php include_once('footer.php'); ?>
 </body>
-
 </html>
