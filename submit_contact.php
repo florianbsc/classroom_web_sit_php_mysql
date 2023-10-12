@@ -9,8 +9,6 @@ if (!isset($postData['email']) || !isset($postData['message']))
     return;
 }	
 
-$prenom = $postData['prenom'];
-$nom = $postData['nom'];
 $email = $postData['email'];
 $message = $postData['message'];
 // $_GET et $_POST sont des superglobale et $_FILES est une supervariable
@@ -53,13 +51,12 @@ if (isset($_FILES['screenshot']) && $_FILES['screenshot']['error'] == 0) {
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title">Rappel de vos informations</h5>
-                <p class="card-text"><b>Nom</b> : <?php echo ($nom); ?></p>
-                <p class="card-text"><b>Prénom</b> : <?php echo ($prenom); ?></p>
                 <p class="card-text"><b>Email</b> : <?php echo ($email); ?></p>
                 <p class="card-text"><b>Message</b> : <?php echo strip_tags($message); ?></p>
             </div>
         </div>
     </div>
+
+</body>   
     <?php include_once('footer.php'); ?>
-</body>
 </html>

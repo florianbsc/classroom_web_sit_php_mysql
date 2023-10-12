@@ -19,12 +19,8 @@
         <!-- Paramétrage du formulaire d'envoi de fichier -->
         <form action="submit_contact.php" method="POST" enctype="multipart/form-data">
             <div class="mb-3">
-                <label for="nom"></label>
-                <input type="text" class="form-control form-control-sm" name="nom" id="nom" placeholder="Nom" size="30" maxlength="20" required>
-                <label for="prenom"></label>
-                <input type="text" class="form-control form-control-sm" name="prenom" id="prenom" placeholder="Prénom" size="30" maxlength="20">
                 <label for="email"></label>
-                <input type="email" class="form-control" id="email" name="email" placeholder="E-Mail" aria-describedby="email-help">
+                <input type="email" class="form-control" id="email" name="email" placeholder="E-Mail" aria-describedby="email-help" required>
                 <div id="email-help" class="form-text">Nous ne revendrons pas votre email.</div>
             </div>
             <div class="mb-3">
