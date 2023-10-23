@@ -16,7 +16,7 @@
         
     <!-- inclusion des variables et fonctions -->
     <?php 
-        include_once('header.php'); 
+        include_once('includes/header.php'); 
         include_once('var/variables.php');
         include_once('var/functions.php');
      ?>
@@ -34,5 +34,5 @@
 
 </body>
     <!-- inclusion du bas de page du site -->
-    <?php include_once('footer.php'); ?>
+    <?php include_once('includes/footer.php'); ?>
 </html>

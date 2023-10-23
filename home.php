@@ -12,9 +12,9 @@
 <body class="d-flex flex-column min-vh-100">
     <div class="container">
 
-        <?php include_once('header.php'); ?>
+        <?php include_once('includes/header.php'); ?>
         <h1>Connectez-vous</h1>
-        <form action="login.php" method="POST">
+        <form action="pages/connected.php" method="POST">
             <div class="mb-3">
                 <input type="text" required>
                 <label>Email Address</label>
@@ -39,8 +39,6 @@
 
 
 </body>
-<footer>
-
-</footer>
+    <?php include_once('includes/footer.php');?>
 
 </html>

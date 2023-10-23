@@ -13,11 +13,11 @@
 <body class="d-flex flex-column min-vh-100">
     <div class="container">
 
-    <?php include_once('header.php'); ?>
+    <?php include_once('includes/header.php'); ?>
         <h1>Contactez nous</h1>
 
         <!-- Paramétrage du formulaire d'envoi de fichier -->
-        <form action="submit_contact.php" method="POST" enctype="multipart/form-data">
+        <form action="pages/submit_contact.php" method="POST" enctype="multipart/form-data">
             <div class="mb-3">
                 <label for="email"></label>
                 <input type="email" class="form-control" id="email" name="email" placeholder="E-Mail" aria-describedby="email-help" required>
@@ -36,6 +36,6 @@
         <br />
     </div>
 
-    <?php include_once('footer.php'); ?>
+    <?php include_once('includes/footer.php'); ?>
 </body>
 </html>

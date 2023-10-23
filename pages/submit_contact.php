@@ -5,6 +5,7 @@ $postData = $_POST;
 // fonction "isset" verifie l'exsitance d'un element
 if (!isset($postData['email']) || !isset($postData['message']))
 {
+     include_once('../includes/header.php');
 	echo('Il faut un email et un message pour soumettre le formulaire.');
     return;
 }	
@@ -45,7 +46,7 @@ if (isset($_FILES['screenshot']) && $_FILES['screenshot']['error'] == 0) {
 <body>
     <div class="container">
 
-        <?php include_once('header.php'); ?>
+        <?php include_once('../includes/header.php'); ?>
         <h1>Message bien reçu !</h1>
 
         <div class="card">
@@ -58,5 +59,5 @@ if (isset($_FILES['screenshot']) && $_FILES['screenshot']['error'] == 0) {
     </div>
 
 </body>   
-    <?php include_once('footer.php'); ?>
+    <?php include_once('../includes/footer.php'); ?>
 </html>
