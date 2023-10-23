@@ -19,9 +19,11 @@
         include_once('includes/header.php'); 
         include_once('var/variables.php');
         include_once('var/functions.php');
+        include_once('login.php');
      ?>
         <h1>Site de recettes</h1>
        
+        <?php if(isset($loggedUser)): ?>
         <?php foreach(getRecipes($recipes) as $recipe) : ?>
             <article>
                 <h3><?php echo $recipe['title']; ?></h3>
@@ -29,6 +31,7 @@
                 <i><?php echo displayAuthor($recipe['author'], $users); ?></i>
             </article>
         <?php endforeach ?>
+        <?php endif; ?>
     </div>
 
 

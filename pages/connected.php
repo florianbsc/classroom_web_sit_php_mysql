@@ -13,10 +13,10 @@
     <div class="container">
 
         <?php include_once('../includes/header.php'); ?>
-        <h1>Vous etes connecter</h1>
+        <h3>Bonjour <?php echo ($user); ?> et bienvenue sur le site </h3>
 
     </div>
-
+    
 </body>
     <?php include_once('../includes/footer.php'); ?>
 </html>
