@@ -16,6 +16,7 @@
 
         <!-- inclusion des variables et fonctions -->
         <?php
+        include_once('config/mysql.php');
         include_once('includes/header.php');
         include_once('var/variables.php');
         include_once('var/functions.php');
