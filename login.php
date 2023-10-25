@@ -21,8 +21,8 @@ if (isset($_POST['email']) &&  isset($_POST['password'])) {
 
             setcookie(
                 'LOGGED_USER',
-                // $loggedUser['email'],
-                $loggedUser['name'],
+                $loggedUser['email'],
+                //$loggedUser['name'],
                 [
                     'expires' => time() + 10,
                     'secure' => true,
@@ -31,7 +31,7 @@ if (isset($_POST['email']) &&  isset($_POST['password'])) {
             );
 
             $_SESSION['LOGGED_USER'] = $loggedUser['email'];
-            $_SESSION['LOGGED_USER'] = $loggedUser['name'];
+            // $_SESSION['LOGGED_USER'] = $loggedUser['name'];
         } else {
             //sinon affichage d'un msg d'erreur
             $errorMessage = sprintf(
@@ -46,15 +46,15 @@ if (isset($_POST['email']) &&  isset($_POST['password'])) {
 // Si le cookie est présent
 if (isset($_COOKIE['LOGGED_USER'])) {
     $loggedUser = [
-        // 'email' => $_COOKIE['LOGGED_USER'],
-        'name' => $_COOKIE['LOGGED_USER'],
+        'email' => $_COOKIE['LOGGED_USER'],
+        // 'name' => $_COOKIE['LOGGED_USER'],
     ];
 }
 
 if (isset($_SESSION['LOGGED_USER'])) {
     $loggedUser = [
-        // 'email' => $_SESSION['LOGGED_USER'],
-        'name' => $_SESSION['LOGGED_USER'],
+        'email' => $_SESSION['LOGGED_USER'],
+        // 'name' => $_SESSION['LOGGED_USER'],
     ];
 }
 
@@ -88,6 +88,6 @@ if (isset($_SESSION['LOGGED_USER'])) {
 -->
 <?php else : ?>
     <div class="alert alert-success" role="alert">
-        Bonjour <?php echo ($loggedUser['name']); ?> et bienvenue sur le site !
+        Bonjour <?php echo ($loggedUser['email']); ?> et bienvenue sur le site !
     </div>
 <?php endif; ?>

@@ -16,25 +16,15 @@
 
         <!-- inclusion des variables et fonctions -->
         <?php
-        include_once('config/mysql.php');
         include_once('includes/header.php');
         include_once('var/variables.php');
         include_once('var/functions.php');
         include_once('login.php');
         ?>
         <h1>Site de recettes</h1>
+        <?php include_once('config/mysql.php')?>
 
-        <?php if (isset($loggedUser)) : ?>
-            <?php foreach (getRecipes($recipes) as $recipe) : ?>
-                <article>
-                    <h3><?php echo $recipe['title']; ?></h3>
-                    <div><?php echo $recipe['recipe']; ?></div>
-                    <i><?php echo displayAuthor($recipe['author'], $users); ?></i>
-                </article>
-            <?php endforeach ?>
-        <?php endif; ?>
     </div>
-
 
 </body>
 <!-- inclusion du bas de page du site -->
