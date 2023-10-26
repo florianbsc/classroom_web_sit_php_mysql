@@ -21,6 +21,7 @@
         include_once('var/functions.php');
         include_once('login.php');
         ?>
+        
         <h1>Site de recettes</h1>
         <?php include_once('config/mysql.php')?>
 
