@@ -1,7 +1,7 @@
 <?php
 // functions.php
 
-function isValidRecipe(array $recipe) : bool
+function isValidRecipe(array $recipe): bool
 {
     if (array_key_exists('is_enabled', $recipe)) {
         $isEnabled = $recipe['is_enabled'];
@@ -12,7 +12,7 @@ function isValidRecipe(array $recipe) : bool
     return $isEnabled;
 }
 
-function display_recipe(array $recipe) : string
+function display_recipe(array $recipe): string
 {
     $recipe_content = '';
 
@@ -23,11 +23,11 @@ function display_recipe(array $recipe) : string
         $recipe_content .= '<i>' . $recipe['author'] . '</i>';
         $recipe_content .= '</article>';
     }
-    
+
     return $recipe_content;
 }
 
-function displayAuthor(string $authorEmail, array $users) : string
+function displayAuthor(string $authorEmail, array $users): string
 {
     for ($i = 0; $i < count($users); $i++) {
         $author = $users[$i];
@@ -37,12 +37,12 @@ function displayAuthor(string $authorEmail, array $users) : string
     }
 }
 
-function getRecipes(array $recipes, int $limit) : array
+function getRecipes(array $recipes, int $limit): array
 {
     $validRecipes = [];
     $counter = 0;
 
-    foreach($recipes as $recipe) {
+    foreach ($recipes as $recipe) {
         if ($counter == $limit) {
             return $validRecipes;
         }
@@ -54,14 +54,21 @@ function getRecipes(array $recipes, int $limit) : array
     }
 
     return $validRecipes;
-  
 }
-//         foreach($recipes as $recipe) {
-//         if (isValidRecipe($recipe)) {
-//             $validRecipes[] = $recipe;
-//         }
-        
-//     }
-//     if(sizeOf($validRecipes)==0)
-//     {echo('pas de recette valide');}
-//     return $validRecipes;
+
+function getEmailIdUser($email, $db): int
+{
+    // Requête SQL pour sélectionner les recettes de l'utilisateur connecté
+    $sqlQuery = "SELECT DISTINCT id_user FROM `recipes` WHERE id_user IN (SELECT id_user FROM users WHERE email = :email)";
+    
+    // Préparation de la requête SQL
+    $recipesStatement = $db->prepare($sqlQuery);
+
+    // Exécution de la requête avec le paramètre email de la session
+    $recipesStatement->execute(['email' =>  $email]);
+
+    // Récupération des résultats sous forme d'un tableau associatif
+    $results = $recipesStatement->fetchAll(PDO::FETCH_ASSOC);
+
+    return $results[0]['id_user'];
+}

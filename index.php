@@ -21,9 +21,12 @@
         include_once('var/functions.php');
         include_once('login.php');
         ?>
-        
+
         <h1>Site de recettes</h1>
-        <?php include_once('config/mysql.php')?>
+        <?php include_once('config/mysql.php');
+        $idUser = getEmailIdUser($loggedUser['email'], $db) ;
+        echo ('Voici mon Id '.$idUser );
+        ?>
 
     </div>
 

@@ -8,7 +8,7 @@ if (isset($_POST['email']) &&  isset($_POST['password'])) {
             // si l'email et le mdp rentré par l'utilisateur correspond à l'email et au mdp de la BD
             $user['email'] === $_POST['email'] &&
             $user['password'] === $_POST['password']
-        ) {
+            ) {
             /* alors 'email' prend la valeur de la chaine de caractere $user['email'] 
             et 'name' prend la valeur de ['full_name']*/
             $loggedUser = [
@@ -86,8 +86,11 @@ if (isset($_SESSION['LOGGED_USER'])) {
     <!-- 
     Si utilisateur/trice bien connectée on affiche un message de succès
 -->
+
 <?php else : ?>
     <div class="alert alert-success" role="alert">
         Bonjour <?php echo ($loggedUser['email']); ?> et bienvenue sur le site !
+        <a href="logout.php" class="btn btn-danger">Déconnexion</a>
+
     </div>
 <?php endif; ?>
