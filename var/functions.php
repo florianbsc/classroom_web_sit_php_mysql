@@ -1,6 +1,6 @@
 <?php
 // functions.php
-
+//verivication de la validité de la recette
 function isValidRecipe(array $recipe): bool
 {
     if (array_key_exists('is_enabled', $recipe)) {
@@ -12,6 +12,7 @@ function isValidRecipe(array $recipe): bool
     return $isEnabled;
 }
 
+//affichage de la recette valide
 function display_recipe(array $recipe): string
 {
     $recipe_content = '';
@@ -27,6 +28,7 @@ function display_recipe(array $recipe): string
     return $recipe_content;
 }
 
+//affiche le nom complet et l'age de l'auteur
 function displayAuthor(string $authorEmail, array $users): string
 {
     for ($i = 0; $i < count($users); $i++) {
@@ -37,6 +39,7 @@ function displayAuthor(string $authorEmail, array $users): string
     }
 }
 
+//recuperation le tableau de recette dans la base de donnée
 function getRecipes(array $recipes, int $limit): array
 {
     $validRecipes = [];

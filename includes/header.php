@@ -13,6 +13,9 @@
         <li class="nav-item">
           <a class="nav-link" href="/classroom_web_sit_php_mysql/contact.php">Contact</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/classroom_web_sit_php_mysql/addrecipe.php">Ajoutez une recette</a>
+        </li>
       </ul>
     </div>
   </div>
