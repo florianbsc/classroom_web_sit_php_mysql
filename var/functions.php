@@ -40,31 +40,44 @@ function displayAuthor(string $authorEmail, array $users): string
 }
 
 //recuperation le tableau de recette dans la base de donnée
-function getRecipes(array $recipes, int $limit): array
+function getRecipes(PDO $db, array $loggedUser, array $recipes, int $limit): array
 {
-    $validRecipes = [];
+
     $counter = 0;
+    $sqlQuery = 'SELECT DISTINCT id_recipe FROM `recipes` WHERE author = :author';
 
-    foreach ($recipes as $recipe) {
-        if ($counter == $limit) {
-            return $validRecipes;
-        }
+    $getRecipes = $db->prepare($sqlQuery);
 
-        if ($recipe['is_enabled']) {
-            $validRecipes[] = $recipe;
-            $counter++;
-        }
-    }
+    $getRecipes->execute([
+        'author' => $loggedUser['email'],
+    ]);
 
-    return $validRecipes;
+    // Récupère toutes les recettes liées à l'utilisateur
+    $recipes = $getRecipes->fetchAll(PDO::FETCH_ASSOC);
+
+    return $recipes;
+}
+
+function addRecipes(PDO $db, array $loggedUser): void
+{
+    $sqlQuery = 'INSERT INTO recipes(title, recipe, author, is_enabled) VALUES (:title, :recipe, :author, :is_enabled)';
+
+    // Préparation
+    $addRecipe = $db->prepare($sqlQuery);
+
+    // Exécution ! La recette est maintenant en base de données
+    $addRecipe->execute([
+        'title' => 'Cassoulet',
+        'recipe' => 'Etape 1 : Des flageolets ! Etape 2 : Euh ...',
+        'author' => $loggedUser['email'],
+        'is_enabled' => 1, // 1 = true, 0 = false
+    ]);
 }
 
 function getEmailIdUser($email, $db): int
 {
     // Requête SQL pour sélectionner les recettes de l'utilisateur connecté
     $sqlQuery = "SELECT DISTINCT id_user FROM `recipes` WHERE id_user IN (SELECT id_user FROM users WHERE email = :email)";
-    
-    // Préparation de la requête SQL
     $recipesStatement = $db->prepare($sqlQuery);
 
     // Exécution de la requête avec le paramètre email de la session

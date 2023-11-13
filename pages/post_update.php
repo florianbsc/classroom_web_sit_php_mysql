@@ -1,19 +1,31 @@
 <?php
 session_start();
 
-
+include_once('../includes/header.php');
 
 $postData = $_POST;
 
-// fonction "isset" verifie l'exsitance d'un element
-if (!isset($postData['addRecipe']) || !isset($postData['description'])) {
-    include_once('../includes/header.php');
-    echo ('Il faut un titre et un message pour soumettre le formulaire.');
+//verrification de l'existance des elements qui vont etre modifié
+if (!isset($postData['id']) || !isset($postData['title']) || !isset('recipe'))
+{
+    echo ('Ilmanque des informations pour permettre l\'édition du formulaire.');
     return;
 }
 
-$addRecipe = $postData['addRecipe'];
-$description = $postData['description'];
+$id = ($postData['id']);
+$title = ($postData['title']);
+$recipe = ($postData['recipe']);
+
+$recupRecipe = $mysqlClien->prepare("UPDATE recipes SET title = :titel, recipe =:recipe WHERE recipe_id = :id");
+$recupRecipe->execute([
+    'title' => $title,
+    'recipe' => $recipe,
+    'id' => $id,
+]);
+
+
+
+
 
 ?>
 
@@ -35,7 +47,7 @@ $description = $postData['description'];
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title">Rappel de vos informations</h5>
-                <p class="card-text"><b>Titre</b> : <?php echo ($addRecipe); ?></p>
+                <p class="card-text"><b>Titre</b> : <?php echo ($editRecipe); ?></p>
                 <p class="card-text"><b>Description</b> : <?php echo strip_tags($description); ?></p>
             </div>
         </div>

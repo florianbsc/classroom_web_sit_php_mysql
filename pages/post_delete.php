@@ -2,19 +2,22 @@
 session_start();
 
 
-
+include_once('../includes/header.php');
 $postData = $_POST;
 
 // fonction "isset" verifie l'exsitance d'un element
-if (!isset($postData['addRecipe']) || !isset($postData['description'])) {
-    include_once('../includes/header.php');
-    echo ('Il faut un titre et un message pour soumettre le formulaire.');
+if (!isset($_POST['id'])) {
+    echo ('Il faut un identifdiant valide pour supprimer une recette.');
     return;
 }
+$id = $_POST['id'];
 
-$addRecipe = $postData['addRecipe'];
-$description = $postData['description'];
+$supRecipe = $mysqlClien->prepare("DELETE FROM recipe where recipe_id = :id");
+$supRecipe->execute([
+    'id' => $id,
+]);
 
+header('Location: ' . $rootUrl . 'index.php');
 ?>
 
 <!DOCTYPE html>
@@ -35,7 +38,7 @@ $description = $postData['description'];
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title">Rappel de vos informations</h5>
-                <p class="card-text"><b>Titre</b> : <?php echo ($addRecipe); ?></p>
+                <p class="card-text"><b>Titre</b> : <?php echo ($supRecipe); ?></p>
                 <p class="card-text"><b>Description</b> : <?php echo strip_tags($description); ?></p>
             </div>
         </div>

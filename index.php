@@ -23,9 +23,24 @@
         ?>
 
         <h1>Site de recettes</h1>
+
+        <div>
+            <ul>
+                <li>
+                    <a class="btn btn-success" aria-current="page" href="./pages/addrecipe.php">Add</a>
+                </li>
+                <li>
+                    <a class="btn btn-danger" href="./pages/delete.php">Supp</a>
+                </li>
+                <li>
+                    <a class="btn btn-primary" href="./pages/update.php">Edit</a>
+                </li>
+            </ul>
+        </div>
+
         <?php include_once('config/mysql.php');
-        $idUser = getEmailIdUser($loggedUser['email'], $db) ;
-        echo ('Voici mon Id '.$idUser );
+        $idUser = getEmailIdUser($loggedUser['email'], $db);
+        echo ('Voici mon Id ' . $idUser);
         ?>
 
     </div>
