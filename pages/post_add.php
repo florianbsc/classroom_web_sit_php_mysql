@@ -1,8 +1,6 @@
 <?php
 session_start();
 
-
-
 $postData = $_POST;
 include_once('../includes/header.php');
 
@@ -15,12 +13,11 @@ if (!isset($postData['addRecipe']) || !isset($postData['description'])) {
 $addRecipe = $postData['addRecipe'];
 $description = $postData['description'];
 
-
 include_once('../config/mysql.php');
 include_once('../var/functions.php');
 include_once('../login.php');
-$recipes = addRecipes($loggedUser, $addRecipe, $description, $db);
 
+$recipes = addRecipes($loggedUser, $addRecipe, $description, $db);
 
 ?>
 

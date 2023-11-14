@@ -1,8 +1,12 @@
 <?php
+include_once('includes/header.php');
+include_once('config/mysql.php');
+include_once('var/variables.php');
+
 
 // Validation du formulaire
 if (isset($_POST['email']) &&  isset($_POST['password'])) {
-    foreach ($users as $user) {
+     foreach ($users as $user) {
         // verification dans variable.php l'exsistance de l'adresse mail et du mdp
         if (
             // si l'email et le mdp rentré par l'utilisateur correspond à l'email et au mdp de la BD

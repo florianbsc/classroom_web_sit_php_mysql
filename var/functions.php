@@ -4,23 +4,6 @@
 
 
 //recuperation le tableau de recette dans la base de donnée
-function getRecipes(PDO $db, array $loggedUser, array $recipes, int $limit): array
-{
-
-    $counter = 0;
-    $sqlQuery = 'SELECT DISTINCT id_recipe FROM `recipes` WHERE author = :author';
-
-    $getRecipes = $db->prepare($sqlQuery);
-
-    $getRecipes->execute([
-        'author' => $loggedUser['email'],
-    ]);
-
-    // Récupère toutes les recettes liées à l'utilisateur
-    $recipes = $getRecipes->fetchAll(PDO::FETCH_ASSOC);
-
-    return $recipes;
-}
 
 function addRecipes(array $loggedUser, $recipeTitle, $description, PDO $db): void
 {
@@ -37,6 +20,39 @@ function addRecipes(array $loggedUser, $recipeTitle, $description, PDO $db): voi
         'is_enabled' => 1, // 1 = true, 0 = false
         'id_user' => getEmailIdUser($loggedUser['email'], $db),
     ]);
+}
+
+function getAllRecipes(PDO $db): array
+{
+  
+    $sqlQuery = 'SELECT * FROM `recipes`';
+    $getRecipes = $db->prepare($sqlQuery);
+    $getRecipes->execute();
+
+    // Récupère toutes les recettes de la base de données
+    $recipes = $getRecipes->fetchAll(PDO::FETCH_ASSOC);
+
+    return $recipes;
+    
+}
+
+
+
+function getRecipes(PDO $db, array $loggedUser, array $recipes): array
+{
+
+    $sqlQuery = 'SELECT * FROM `recipes` WHERE id_user = :id_user ;';
+
+    $getRecipes = $db->prepare($sqlQuery);
+
+    $getRecipes->execute([
+        'id_user' => $loggedUser['email'],
+    ]);
+
+    // Récupère toutes les recettes liées à l'utilisateur
+    $recipes = $getRecipes->fetchAll(PDO::FETCH_ASSOC);
+
+    return $recipes;
 }
 
 function getEmailIdUser($email, $db): int
@@ -79,15 +95,4 @@ function getEmailIdUser($email, $db): int
 //     }
 
 //     return $recipe_content;
-// }
-
-// //affiche le nom complet et l'age de l'auteur
-// function displayAuthor(string $authorEmail, array $users): string
-// {
-//     for ($i = 0; $i < count($users); $i++) {
-//         $author = $users[$i];
-//         if ($authorEmail === $author['email']) {
-//             return $author['full_name'] . '(' . $author['age'] . ' ans)';
-//         }
-//     }
 // }

@@ -16,14 +16,14 @@
 
         <!-- inclusion des variables et fonctions -->
         <?php
+        include_once('config/mysql.php');
         include_once('includes/header.php');
-        include_once('var/variables.php');
         include_once('var/functions.php');
-        include_once('login.php');
         ?>
 
         <h1>Site de recettes</h1>
 
+        <?php include_once('login.php'); ?> <br>
         <div>
             <ul>
                 <li>
@@ -37,6 +37,18 @@
                 </li>
             </ul>
         </div>
+        <?php 
+            $allRecipes = getAllRecipes($db);
+
+            // Affichage des recettes
+            foreach ($allRecipes as $recipe) 
+                {
+                    echo 'Titre: ' . $recipe['title'] . '<br>';
+                    echo 'Recette: ' . $recipe['recipe'] . '<br>';
+                    // ... autres détails de la recette ...
+                    echo '<br>';
+                }
+        ?>
 
     </div>
 
