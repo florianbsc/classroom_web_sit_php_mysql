@@ -1,67 +1,64 @@
 <?php
 // functions.php
+//verivication de la validité de la recette
 
-function isValidRecipe(array $recipe): bool
+
+//recuperation le tableau de recette dans la base de donnée
+
+function addRecipes(array $loggedUser, $recipeTitle, $description, PDO $db): void
 {
-    if (array_key_exists('is_enabled', $recipe)) {
-        $isEnabled = $recipe['is_enabled'];
-    } else {
-        $isEnabled = false;
-    }
+    $sqlQuery = 'INSERT INTO recipes(title, recipe, author, is_enabled, id_user) VALUES (:title, :recipe, :author, :is_enabled, :id_user)';
 
-    return $isEnabled;
+    // Préparation
+    $addRecipe = $db->prepare($sqlQuery);
+
+    // Exécution ! La recette est maintenant en base de données
+    $addRecipe->execute([
+        'title' => $recipeTitle,
+        'recipe' => $description,
+        'author' => $loggedUser['email'],
+        'is_enabled' => 1, // 1 = true, 0 = false
+        'id_user' => getEmailIdUser($loggedUser['email'], $db),
+    ]);
 }
 
-function display_recipe(array $recipe): string
+function getAllRecipes(PDO $db): array
 {
-    $recipe_content = '';
+  
+    $sqlQuery = 'SELECT * FROM `recipes`';
+    $getRecipes = $db->prepare($sqlQuery);
+    $getRecipes->execute();
 
-    if ($recipe['is_enabled']) {
-        $recipe_content = '<article>';
-        $recipe_content .= '<h3>' . $recipe['title'] . '</h3>';
-        $recipe_content .= '<div>' . $recipe['recipe'] . '</div>';
-        $recipe_content .= '<i>' . $recipe['author'] . '</i>';
-        $recipe_content .= '</article>';
-    }
+    // Récupère toutes les recettes de la base de données
+    $recipes = $getRecipes->fetchAll(PDO::FETCH_ASSOC);
 
-    return $recipe_content;
+    return $recipes;
+    
 }
 
-function displayAuthor(string $authorEmail, array $users): string
+
+
+function getRecipes(PDO $db, array $loggedUser, array $recipes): array
 {
-    for ($i = 0; $i < count($users); $i++) {
-        $author = $users[$i];
-        if ($authorEmail === $author['email']) {
-            return $author['full_name'] . '(' . $author['age'] . ' ans)';
-        }
-    }
-}
 
-function getRecipes(array $recipes, int $limit): array
-{
-    $validRecipes = [];
-    $counter = 0;
+    $sqlQuery = 'SELECT * FROM `recipes` WHERE id_user = :id_user ;';
 
-    foreach ($recipes as $recipe) {
-        if ($counter == $limit) {
-            return $validRecipes;
-        }
+    $getRecipes = $db->prepare($sqlQuery);
 
-        if ($recipe['is_enabled']) {
-            $validRecipes[] = $recipe;
-            $counter++;
-        }
-    }
+    $getRecipes->execute([
+        'id_user' => $loggedUser['email'],
+    ]);
 
-    return $validRecipes;
+    // Récupère toutes les recettes liées à l'utilisateur
+    $recipes = $getRecipes->fetchAll(PDO::FETCH_ASSOC);
+
+    return $recipes;
 }
 
 function getEmailIdUser($email, $db): int
 {
     // Requête SQL pour sélectionner les recettes de l'utilisateur connecté
     $sqlQuery = "SELECT DISTINCT id_user FROM `recipes` WHERE id_user IN (SELECT id_user FROM users WHERE email = :email)";
-    
-    // Préparation de la requête SQL
     $recipesStatement = $db->prepare($sqlQuery);
 
     // Exécution de la requête avec le paramètre email de la session
@@ -72,3 +69,30 @@ function getEmailIdUser($email, $db): int
 
     return $results[0]['id_user'];
 }
+
+// function isValidRecipe(array $recipe): bool
+// {
+//     if (array_key_exists('is_enabled', $recipe)) {
+//         $isEnabled = $recipe['is_enabled'];
+//     } else {
+//         $isEnabled = false;
+//     }
+
+//     return $isEnabled;
+// }
+
+// //affichage de la recette valide
+// function display_recipe(array $recipe): string
+// {
+//     $recipe_content = '';
+
+//     if ($recipe['is_enabled']) {
+//         $recipe_content = '<article>';
+//         $recipe_content .= '<h3>' . $recipe['title'] . '</h3>';
+//         $recipe_content .= '<div>' . $recipe['recipe'] . '</div>';
+//         $recipe_content .= '<i>' . $recipe['author'] . '</i>';
+//         $recipe_content .= '</article>';
+//     }
+
+//     return $recipe_content;
+// }
