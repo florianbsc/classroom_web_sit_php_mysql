@@ -4,16 +4,23 @@ session_start();
 
 
 $postData = $_POST;
+include_once('../includes/header.php');
 
 // fonction "isset" verifie l'exsitance d'un element
 if (!isset($postData['addRecipe']) || !isset($postData['description'])) {
-    include_once('../includes/header.php');
     echo ('Il faut un titre et un message pour soumettre le formulaire.');
     return;
 }
 
 $addRecipe = $postData['addRecipe'];
 $description = $postData['description'];
+
+
+include_once('../config/mysql.php');
+include_once('../var/functions.php');
+include_once('../login.php');
+$recipes = addRecipes($loggedUser, $addRecipe, $description, $db);
+
 
 ?>
 

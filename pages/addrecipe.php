@@ -13,10 +13,10 @@
 
 <body class="d-flex flex-column min-vh-100">
     <div class="container">
-        <?php include_once('includes/header.php'); ?>
+        <?php include_once('../includes/header.php'); ?>
         <h1>Ajouter une recette</h1>
 
-        <form action="pages/post_create.php" method="POST">
+        <form action="./post_add.php" method="POST">
             <div class="mb-3">
                 <label for="addRecipe">Titre de la recette</label>
                 <input type="text" class="form-control" id="addRecipe" name="addRecipe">
@@ -30,7 +30,7 @@
         </form>
 
     </div>
-    <?php include_once('includes/footer.php'); ?>
+    <?php include_once('../includes/footer.php'); ?>
 </body>
 
 </html>

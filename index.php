@@ -38,11 +38,6 @@
             </ul>
         </div>
 
-        <?php include_once('config/mysql.php');
-        $idUser = getEmailIdUser($loggedUser['email'], $db);
-        echo ('Voici mon Id ' . $idUser);
-        ?>
-
     </div>
 
 </body>
