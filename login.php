@@ -1,41 +1,32 @@
 <?php
-include_once('includes/header.php');
-include_once('config/mysql.php');
-include_once('var/variables.php');
+    include_once('includes/header.php');
+    include_once('var/variables.php');
 
+    $userEmail = $_POST['email'];
+    $userPassword = $_POST['password'];
 
-// Validation du formulaire
-if (isset($_POST['email']) &&  isset($_POST['password'])) {
-     foreach ($users as $user) {
-        // verification dans variable.php l'exsistance de l'adresse mail et du mdp
+    // Validation du formulaire
+    if (isset($userEmail) &&  isset($userPassword)) {
+
+        // verification dans la BD l'exsistance de l'adresse mail et du mdp
         if (
-            // si l'email et le mdp rentré par l'utilisateur correspond à l'email et au mdp de la BD
-            $user['email'] === $_POST['email'] &&
-            $user['password'] === $_POST['password']
-            ) {
-            /* alors 'email' prend la valeur de la chaine de caractere $user['email'] 
-            et 'name' prend la valeur de ['full_name']*/
-            $loggedUser = [
-                'email' => $user['email'],
-                'name' => $user['full_name'],
-            ];
-
-
-            //Cookie qui expire dans un an
+            // si l'email et le mdp rentré par l'utilisateur correspond à l'email et au mdp de la BD retourne 1 et créé le cookies
+            checkUser($db, $userEmail, $userPassword) == 1
+        ) {
+            $loggedUser = ['email' => $user['email']];
 
             setcookie(
                 'LOGGED_USER',
                 $loggedUser['email'],
                 //$loggedUser['name'],
                 [
-                    'expires' => time() + 10,
+                    'expires' => time() + 3600,
                     'secure' => true,
                     'httponly' => true,
                 ]
             );
 
             $_SESSION['LOGGED_USER'] = $loggedUser['email'];
-            // $_SESSION['LOGGED_USER'] = $loggedUser['name'];
         } else {
             //sinon affichage d'un msg d'erreur
             $errorMessage = sprintf(
@@ -45,24 +36,21 @@ if (isset($_POST['email']) &&  isset($_POST['password'])) {
             );
         }
     }
-}
 
-// Si le cookie est présent
-if (isset($_COOKIE['LOGGED_USER'])) {
-    $loggedUser = [
-        'email' => $_COOKIE['LOGGED_USER'],
-        // 'name' => $_COOKIE['LOGGED_USER'],
-    ];
-}
+    // Si le cookie est présent
+    if (isset($_COOKIE['LOGGED_USER'])) {
+        $loggedUser = [
+            'email' => $_COOKIE['LOGGED_USER'],
+            // 'name' => $_COOKIE['LOGGED_USER'],
+        ];
+    }
 
-if (isset($_SESSION['LOGGED_USER'])) {
-    $loggedUser = [
-        'email' => $_SESSION['LOGGED_USER'],
-        // 'name' => $_SESSION['LOGGED_USER'],
-    ];
-}
-
-
+    if (isset($_SESSION['LOGGED_USER'])) {
+        $loggedUser = [
+            'email' => $_SESSION['LOGGED_USER'],
+            // 'name' => $_SESSION['LOGGED_USER'],
+        ];
+    }
 ?>
 
 <!--

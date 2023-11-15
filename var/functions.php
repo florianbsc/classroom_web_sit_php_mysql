@@ -1,7 +1,27 @@
 <?php
 // functions.php
-//verivication de la validité de la recette
+//verivication de la exsitance de l'utilisateur
+include_once('./config/mysql.php');
 
+
+
+function checkUser(PDO $db, $userEmail, $userPassword): bool
+{
+    $sql = "SELECT count(*) FROM users WHERE email = :email AND password = :password";
+    $stmt = $db->prepare($sql);
+
+    // Exécution de la requête
+    $stmt->execute([
+        'email' => $userEmail,
+        'password' => $userPassword,
+    ]);
+
+    // Récupération des résultats
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    // Vérification si l'utilisateur a été trouvé et si le mot de passe est correct
+    return $user['count(*)'];
+}
 
 //recuperation le tableau de recette dans la base de donnée
 
