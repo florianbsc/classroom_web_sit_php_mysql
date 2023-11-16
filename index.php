@@ -23,10 +23,10 @@
 
         <h1>Site de recettes</h1>
 
-        <?php include_once('login.php');
-        echo '<br>';      
+        <?php include_once('login.php'); 
+        echo '<br>';  
         
-        
+    
         $allRecipes = getAllRecipes($db);
         echo '<a class="btn btn-success" aria-current="page" href="./pages/addrecipe.php">Add</a> <br> <br>';
 

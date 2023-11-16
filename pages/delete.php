@@ -13,10 +13,10 @@
 
 <body class="d-flex flex-column min-vh-100">
     <div class="container">
-        <?php include_once('includes/header.php'); ?>
+        <?php include_once('../includes/header.php'); ?>
         <h1>Supprime une recette</h1>
 
-        <form action="<?php echo $rootUrl . 'pages/post_delete.php'; ?>" method="POST">
+        <form action="./post_delete.php" method="POST">
             <div class="mb-3 visually-hidden">
                 <label for="id" class="from-label">id de la recette</label>
                 <input type="id" class="form-control" id="id" name="id" value="<?php echo $_GET['id']; ?>">
@@ -25,7 +25,7 @@
         </form>
 
     </div>
-    <?php include_once('includes/footer.php'); ?>
+    <?php include_once('../includes/footer.php'); ?>
 </body>
 
 </html>

@@ -1,10 +1,12 @@
 <?php
     include_once('includes/header.php');
     include_once('var/variables.php');
-
+    
+if (isset($_POST['email']) && isset($_POST['password']))
+{
     $userEmail = $_POST['email'];
     $userPassword = $_POST['password'];
-
+}
     // Validation du formulaire
     if (isset($userEmail) &&  isset($userPassword)) {
 
@@ -13,7 +15,8 @@
             // si l'email et le mdp rentré par l'utilisateur correspond à l'email et au mdp de la BD retourne 1 et créé le cookies
             checkUser($db, $userEmail, $userPassword) == 1
         ) {
-            $loggedUser = ['email' => $user['email']];
+
+            $loggedUser = ['email' => $userEmail];
 
             setcookie(
                 'LOGGED_USER',
@@ -51,6 +54,8 @@
             // 'name' => $_SESSION['LOGGED_USER'],
         ];
     }
+
+    
 ?>
 
 <!--

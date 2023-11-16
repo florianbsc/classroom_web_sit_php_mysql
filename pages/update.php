@@ -1,8 +1,10 @@
 <?php session_start(); 
+include_once('../var/functions.php');
 
-$egtData = $_GET;
+$gettData = $_GET;
 
-if (!isset($egtData['id']) && is_numeric($egtData['id']))
+
+if (!isset($getData['id']) && is_numeric($getData['id']))
 {
     echo('il faut un identifiant de reccette pour la modifier. ');
     return;
@@ -15,9 +17,8 @@ $recupRecipe->execute([
 
 $recipe = $recupRecipe->fetch(PDO::FETCH_ASSOC);
 
-?>
-<!-- index.php -->
 
+?>
 
 
 
@@ -34,10 +35,12 @@ $recipe = $recupRecipe->fetch(PDO::FETCH_ASSOC);
 
 <body class="d-flex flex-column min-vh-100">
     <div class="container">
-        <?php include_once($rootPatch. 'includes/header.php'); ?>
-        <h1>MAJ une recette <?php echo($recipe['title']); ?></h1>
+        <?php include_once('../includes/header.php'); ?>
+        <h1>MAJ une recette</h1>
         
-        <form action="<?php echo($rootUrl . 'pages/post_update.php'); ?>" method="POST">
+        <!-- <h1>MAJ une recette <?php echo($recipe['title']); ?></h1> -->
+        
+        <form action="pages/post_update.php" method="POST">
             <div class="mb-3 visually-hidden">
                 <label for="id" class="form-label">id de la recette</label>
                 <input type="hidden" class="from-control" id="id" name="id" value="<?php ;?>">
@@ -55,6 +58,6 @@ $recipe = $recupRecipe->fetch(PDO::FETCH_ASSOC);
         </form>
 
     </div>
-    <?php include_once('includes/footer.php');?>
+    <?php include_once('../includes/footer.php');?>
 </body>
 </html>

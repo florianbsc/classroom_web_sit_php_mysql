@@ -3,6 +3,7 @@ session_start();
 
 
 include_once('../includes/header.php');
+include('../config/mysql.php');
 $postData = $_POST;
 
 // fonction "isset" verifie l'exsitance d'un element
@@ -12,12 +13,12 @@ if (!isset($_POST['id'])) {
 }
 $id = $_POST['id'];
 
-$supRecipe = $mysqlClien->prepare("DELETE FROM recipe where recipe_id = :id");
-$supRecipe->execute([
+$suppRecipe = $db->prepare("DELETE FROM recipe where recipe_id = :id");
+$suppRecipe->execute([
     'id' => $id,
 ]);
 
-header('Location: ' . $rootUrl . 'index.php');
+header('Location: classroom_web_sit_php_mysql/index.php');
 ?>
 
 <!DOCTYPE html>
