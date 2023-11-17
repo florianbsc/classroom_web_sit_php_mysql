@@ -1,5 +1,6 @@
 <?php
 session_start();
+
 include_once('../includes/header.php');
 include_once('../config/mysql.php');
 include_once('../var/functions.php');
@@ -12,10 +13,6 @@ if (!isset($loggedUser) || !isset($recipeTitle)) {
 }
 
 echo '<h1>Veuillez vous connecter et vérifier votre recette.</h1>';
-
-
-
-
 
 $postData = $_POST;
 
@@ -30,9 +27,6 @@ $addTitle = $postData['title'];
 $description = $postData['description'];
 
 addRecipes($loggedUser, $addTitle, $description, $db);
-
-
-
 
 ?>
 

@@ -1,9 +1,9 @@
 <?php
 session_start();
 
-
 include_once('../includes/header.php');
 include('../config/mysql.php');
+
 $postData = $_POST;
 
 // fonction "isset" verifie l'exsitance d'un element

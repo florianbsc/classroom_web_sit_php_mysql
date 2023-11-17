@@ -23,26 +23,46 @@
 
         <h1>Site de recettes</h1>
 
-        <?php include_once('login.php'); 
-        echo '<br>';  
-        
-    
-        $allRecipes = getAllRecipes($db);
-        echo '<a class="btn btn-success" aria-current="page" href="./pages/addrecipe.php">Add</a> <br> <br>';
-
-        // Affichage des recettes
-        foreach ($allRecipes as $recipe) {
-            echo 'Titre: ' . $recipe['title'] . '<br>';
-            echo 'Recette: ' . $recipe['recipe'] . '<br>';
-            // ... autres détails de la recette ...
+        <?php
             echo '<br>';
-        
-        echo '<a class="btn btn-danger" href="./pages/delete.php">Supp</a> 
-        <a class="btn btn-primary" href="./pages/update.php">Edit</a>';
 
-        echo '<br><br>';
-        }
+            $allRecipes = getAllRecipes($db);
+            echo '<a class="btn btn-success" aria-current="page" href="./pages/addrecipe.php">Add</a> <br> <br>';
+
+            // Affichage des recettes
+            foreach ($allRecipes as $recipe) {
+                echo 'Titre: ' . $recipe['title'] . '<br>';
+                echo 'Recette: ' . $recipe['recipe'] . '<br>';
+                // ... autres détails de la recette ...
+                echo '<br>';
+
+                echo '<a class="btn btn-danger" href="./pages/delete.php">Supp</a> 
+            <a class="btn btn-primary" href="./pages/update.php">Edit</a>';
+
+                echo '<br><br>';
+            }
         ?>
+
+<!-- <?php
+echo '<br>';
+$allRecipes = getAllRecipes($db);
+echo '<a class="btn btn-success" aria-current="page" href="./pages/addrecipe.php">Add</a> <br> <br>';
+
+// Affichage des recettes
+foreach ($allRecipes as $recipe) {
+    echo 'Titre: ' . $recipe['title'] . '<br>';
+    echo 'Recette: ' . $recipe['recipe'] . '<br>';
+    // ... autres détails de la recette ...
+    echo '<br>';
+
+    echo '<a class="btn btn-danger" href="./pages/delete.php?id=' . $recipe['id'] . '">Supp</a> 
+          <a class="btn btn-primary" href="./pages/update.php?id=' . $recipe['id'] . '">Edit</a>';
+
+    echo '<br><br>';
+}
+?> -->
+
+
 
     </div>
 

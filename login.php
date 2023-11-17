@@ -1,6 +1,5 @@
 <?php
     include_once('includes/header.php');
-    include_once('var/variables.php');
     
 if (isset($_POST['email']) && isset($_POST['password']))
 {

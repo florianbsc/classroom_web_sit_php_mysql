@@ -1,24 +1,24 @@
 <?php session_start(); 
 include_once('../var/functions.php');
 
-$gettData = $_GET;
+// $getData = $_GET;
 
 
-if (!isset($getData['id']) && is_numeric($getData['id']))
-{
-    echo('il faut un identifiant de reccette pour la modifier. ');
-    return;
-}
+// if (!isset($getData['id']) && is_numeric($getData['id']))
+// {
+//     echo('il faut un identifiant de reccette pour la modifier. ');
+//     return;
+// }
 
-$recupRecipe = $mysqlClien->prepare('SELECT * FROM recipes WHERE recipe_id :id');
-$recupRecipe->execute([
-    'id' => $getData['id'],
-]);
+// $recupRecipe = $db->prepare('SELECT * FROM recipes WHERE recipe_id :id');
+// $recupRecipe->execute([
+//     'id' => $getData['id'],
+// ]);
 
-$recipe = $recupRecipe->fetch(PDO::FETCH_ASSOC);
+// $recipe = $recupRecipe->fetch(PDO::FETCH_ASSOC);
 
 
-?>
+// ?>
 
 
 
