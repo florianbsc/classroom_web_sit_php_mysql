@@ -11,13 +11,22 @@ if (!isset($getData['id_recipe']) && is_numeric($getData['id_recipe']))
     return;
 }
 
-$recupRecipe = $db->prepare("SELECT * FROM recipes WHERE id_recipe = :id_recipe");
-$recupRecipe->execute([
-    'id_recipe' => $getData['id_recipe'],
-]);
+$recupRecipe = getRecipeById($db, $getData['id_recipe']);
 
-$recipe = $recupRecipe->fetch(PDO::FETCH_ASSOC);
-
+if (!$recupRecipe) {
+    // Gérer le cas où la recette n'est pas trouvée
+    echo 'Recette non trouvée';
+} else {
+    // Afficher le formulaire de modification avec les données existantes
+    ?>
+    <form method="post" action="./post_update.php">
+        <input type="hidden" name="id_recipe" value="<?php echo $getData['id_recipe']; ?>">
+        Titre: <input type="text" name="edit_title" id="edit_title"  value="<?php echo $recupRecipe['title']; ?>"><br>
+        Recette: <textarea name="edit_recipe"><?php echo $recupRecipe['recipe']; ?></textarea><br>
+        <input type="submit" value="Modifier">
+    </form>
+    <?php
+}
 
 ?>
 

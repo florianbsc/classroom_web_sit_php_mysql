@@ -127,9 +127,15 @@ function getRecipeById ($db, $id_recipe)
     try {
         // Exécution de la requête
         $getRecipeById->execute([
-            'id_recipe' => $id_recipe['id'],
+            'id_recipe' => $id_recipe,
             
         ]);
+
+        // Récupération des résultats
+        $result = $getRecipeById->fetch(PDO::FETCH_ASSOC);
+
+        // Retourne les résultats
+        return $result;
     } catch (Exception $e) {
         // En cas d'erreur, lever une exception avec un message d'erreur
         throw new RuntimeException('Erreur lors de la modification de la recette : ' . $e->getMessage());

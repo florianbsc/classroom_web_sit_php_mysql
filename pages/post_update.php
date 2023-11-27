@@ -2,37 +2,36 @@
 session_start();
 
 include_once('../includes/header.php');
-
-if (!isset($loggedUser) || !isset($recipeTitle)) {
-    // Redirection vers /login.php
-    header("Location: /classroom_web_sit_php_mysql/login.php");
-    exit(); // Assurez-vous d'utiliser exit() après la redirection pour éviter l'exécution ultérieure du script
-}
+include_once('../login.php');
+include_once('../config/mysql.php');
 
 $postData = $_POST;
 
-//verrification de l'existance des elements qui vont etre modifié
-if (!isset($postData['id_recipe']) || !isset($postData['title']) || !isset('recipe'))
+if (!isset($loggedUser) || !isset($postData['edit_title']))
 {
-    echo ('Ilmanque des informations pour permettre l\'édition du formulaire.');
-    return;
+    // Redirection vers /login.php
+    header("Location: /classroom_web_sit_php_mysql/login.php");
+    exit(); 
 }
 
-$id_recipe = ($postData['id_recipe']);
-$title = ($postData['title']);
-$recipe = ($postData['recipe']);
+//verrification de l'existance des elements qui vont etre modifié
+if (!isset($postData['id_recipe']) || !isset($postData['edit_title']) || !isset($postData['edit_recipe']))
+{
+    echo ('Il manque des informations pour permettre l\'édition du formulaire.');
+    return;
 
-$recupRecipe = $mysqlClien->prepare("UPDATE recipes SET title = :titel, recipe =:recipe WHERE id_recipe = :id_recipe");
-$recupRecipe->execute([
-    'title' => $title,
-    'recipe' => $recipe,
-    'id_recipe' => $id_recipe,
-]);
-
-
-
-
-
+} else {
+    $Li_id_recipe = ($postData['id_recipe']);
+    $Ls_title = ($postData['edit_title']);
+    $Ls_recipe = ($postData['edit_recipe']);
+    
+    $recupRecipe = $db->prepare("UPDATE recipes SET title = :title, recipe =:recipe WHERE id_recipe = :id_recipe");
+    $recupRecipe->execute([
+        'title' => $Ls_title,
+        'recipe' => $Ls_recipe,
+        'id_recipe' => $Li_id_recipe,
+    ]);
+}
 ?>
 
 <!DOCTYPE html>
@@ -48,13 +47,13 @@ $recupRecipe->execute([
     <div class="container">
 
         <?php include_once('../includes/header.php'); ?>
-        <h1>Message bien reçu !</h1>
+        <h1>Le message à bien été modifié !</h1>
 
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title">Rappel de vos informations</h5>
-                <p class="card-text"><b>Titre</b> : <?php echo ($editRecipe); ?></p>
-                <p class="card-text"><b>Description</b> : <?php echo strip_tags($description); ?></p>
+                <p class="card-text"><b>Titre</b> : <?php echo ($Ls_title); ?></p>
+                <p class="card-text"><b>Description</b> : <?php echo strip_tags($Ls_recipe); ?></p>
             </div>
         </div>
     </div>
