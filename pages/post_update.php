@@ -3,24 +3,30 @@ session_start();
 
 include_once('../includes/header.php');
 
+if (!isset($loggedUser) || !isset($recipeTitle)) {
+    // Redirection vers /login.php
+    header("Location: /classroom_web_sit_php_mysql/login.php");
+    exit(); // Assurez-vous d'utiliser exit() après la redirection pour éviter l'exécution ultérieure du script
+}
+
 $postData = $_POST;
 
 //verrification de l'existance des elements qui vont etre modifié
-if (!isset($postData['id']) || !isset($postData['title']) || !isset('recipe'))
+if (!isset($postData['id_recipe']) || !isset($postData['title']) || !isset('recipe'))
 {
     echo ('Ilmanque des informations pour permettre l\'édition du formulaire.');
     return;
 }
 
-$id = ($postData['id']);
+$id_recipe = ($postData['id_recipe']);
 $title = ($postData['title']);
 $recipe = ($postData['recipe']);
 
-$recupRecipe = $mysqlClien->prepare("UPDATE recipes SET title = :titel, recipe =:recipe WHERE recipe_id = :id");
+$recupRecipe = $mysqlClien->prepare("UPDATE recipes SET title = :titel, recipe =:recipe WHERE id_recipe = :id_recipe");
 $recupRecipe->execute([
     'title' => $title,
     'recipe' => $recipe,
-    'id' => $id,
+    'id_recipe' => $id_recipe,
 ]);
 
 

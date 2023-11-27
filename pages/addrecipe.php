@@ -23,8 +23,8 @@
                 <div id="title" class="form-text">Choisisez un titre percutant</div>
             </div>
             <div class="mb-3">
-                <label for="description" class="form-label">Desciption de la rectte</label>
-                <textarea class="form-control" placeholder="Seuelement du contenu vous appartenent ou libre de droits" id="description" name="description"></textarea>
+                <label for="recipe" class="form-label">Desciption de la rectte</label>
+                <textarea class="form-control" placeholder="Seulement du contenu vous appartenant ou libre de droits" id="recipe" name="recipe"></textarea>
             </div>
             <button type="submit" class="btn btn-primary">Envoyer</button>
         </form>

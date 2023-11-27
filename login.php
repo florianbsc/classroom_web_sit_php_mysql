@@ -1,60 +1,60 @@
 <?php
-    include_once('includes/header.php');
-    
-if (isset($_POST['email']) && isset($_POST['password']))
+include_once('includes/header.php');
+
+if (isset($_POST['email']) && isset($_POST['password'])) 
 {
     $userEmail = $_POST['email'];
     $userPassword = $_POST['password'];
 }
-    // Validation du formulaire
-    if (isset($userEmail) &&  isset($userPassword)) {
+// Validation du formulaire
+if (isset($userEmail) &&  isset($userPassword)) {
 
-        // verification dans la BD l'exsistance de l'adresse mail et du mdp
-        if (
-            // si l'email et le mdp rentré par l'utilisateur correspond à l'email et au mdp de la BD retourne 1 et créé le cookies
-            checkUser($db, $userEmail, $userPassword) == 1
-        ) {
+    // verification dans la BD l'exsistance de l'adresse mail et du mdp
+    if (
+        // si l'email et le mdp rentré par l'utilisateur correspond à l'email et au mdp de la BD retourne 1 et créé le cookies
+        checkUser($db, $userEmail, $userPassword) == 1
+    ) {
 
-            $loggedUser = ['email' => $userEmail];
+        $loggedUser = ['email' => $userEmail];
 
-            setcookie(
-                'LOGGED_USER',
-                $loggedUser['email'],
-                //$loggedUser['name'],
-                [
-                    'expires' => time() + 3600,
-                    'secure' => true,
-                    'httponly' => true,
-                ]
-            );
+        setcookie(
+            'LOGGED_USER',
+            $loggedUser['email'],
+            //$loggedUser['name'],
+            [
+                'expires' => time() + 360,
+                'secure' => true,
+                'httponly' => true,
+            ]
+        );
 
-            $_SESSION['LOGGED_USER'] = $loggedUser['email'];
-        } else {
-            //sinon affichage d'un msg d'erreur
-            $errorMessage = sprintf(
-                'Les informations envoyées ne permettent pas de vous identifier : (%s/%s)',
-                $_POST['email'],
-                $_POST['password']
-            );
-        }
+        $_SESSION['LOGGED_USER'] = $loggedUser['email'];
+    } else {
+        //sinon affichage d'un msg d'erreur
+        $errorMessage = sprintf(
+            'Les informations envoyées ne permettent pas de vous identifier : (%s/%s)',
+            $_POST['email'],
+            $_POST['password']
+        );
     }
+}
 
-    // Si le cookie est présent
-    if (isset($_COOKIE['LOGGED_USER'])) {
-        $loggedUser = [
-            'email' => $_COOKIE['LOGGED_USER'],
-            // 'name' => $_COOKIE['LOGGED_USER'],
-        ];
-    }
+// Si le cookie est présent
+if (isset($_COOKIE['LOGGED_USER'])) {
+    $loggedUser = [
+        'email' => $_COOKIE['LOGGED_USER'],
+        // 'name' => $_COOKIE['LOGGED_USER'],
+    ];
+}
 
-    if (isset($_SESSION['LOGGED_USER'])) {
-        $loggedUser = [
-            'email' => $_SESSION['LOGGED_USER'],
-            // 'name' => $_SESSION['LOGGED_USER'],
-        ];
-    }
+if (isset($_SESSION['LOGGED_USER'])) {
+    $loggedUser = [
+        'email' => $_SESSION['LOGGED_USER'],
+        // 'name' => $_SESSION['LOGGED_USER'],
+    ];
+}
 
-    
+
 ?>
 
 <!--

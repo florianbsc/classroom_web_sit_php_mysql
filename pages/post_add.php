@@ -6,27 +6,26 @@ include_once('../config/mysql.php');
 include_once('../var/functions.php');
 include_once('../login.php');
 
-if (!isset($loggedUser) || !isset($recipeTitle)) {
+if (!isset($loggedUser)) {
     // Redirection vers /login.php
     header("Location: /classroom_web_sit_php_mysql//login.php");
     exit(); // Assurez-vous d'utiliser exit() après la redirection pour éviter l'exécution ultérieure du script
 }
 
-echo '<h1>Veuillez vous connecter et vérifier votre recette.</h1>';
 
 $postData = $_POST;
 
 // fonction "isset" verifie l'exsitance d'un element
-if (!isset($postData['title']) || !isset($postData['description'])) {
+if (!isset($postData['title']) || !isset($postData['recipe'])) {
     echo ('Il faut un titre et un message pour soumettre le formulaire.');
     return;
 }
 
 $addTitle = $postData['title'];
 
-$description = $postData['description'];
+$recipe = $postData['recipe'];
 
-addRecipes($loggedUser, $addTitle, $description, $db);
+addRecipes($loggedUser, $addTitle, $recipe, $db);
 
 ?>
 
@@ -49,7 +48,7 @@ addRecipes($loggedUser, $addTitle, $description, $db);
             <div class="card-body">
                 <h5 class="card-title">Rappel de vos informations</h5>
                 <p class="card-text"><b>Titre</b> : <?php echo ($addTitle); ?></p>
-                <p class="card-text"><b>Description</b> : <?php echo strip_tags($description); ?></p>
+                <p class="card-text"><b>Recette</b> : <?php echo strip_tags($recipe); ?></p>
             </div>
         </div>
     </div>

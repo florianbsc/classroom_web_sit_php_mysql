@@ -1,24 +1,25 @@
 <?php session_start(); 
 include_once('../var/functions.php');
+include_once('../config/mysql.php');
 
-// $getData = $_GET;
-
-
-// if (!isset($getData['id']) && is_numeric($getData['id']))
-// {
-//     echo('il faut un identifiant de reccette pour la modifier. ');
-//     return;
-// }
-
-// $recupRecipe = $db->prepare('SELECT * FROM recipes WHERE recipe_id :id');
-// $recupRecipe->execute([
-//     'id' => $getData['id'],
-// ]);
-
-// $recipe = $recupRecipe->fetch(PDO::FETCH_ASSOC);
+$getData = $_GET;
 
 
-// ?>
+if (!isset($getData['id_recipe']) && is_numeric($getData['id_recipe']))
+{
+    echo('il faut un identifiant de reccette pour la modifier. ');
+    return;
+}
+
+$recupRecipe = $db->prepare("SELECT * FROM recipes WHERE id_recipe = :id_recipe");
+$recupRecipe->execute([
+    'id_recipe' => $getData['id_recipe'],
+]);
+
+$recipe = $recupRecipe->fetch(PDO::FETCH_ASSOC);
+
+
+?>
 
 
 
@@ -40,10 +41,10 @@ include_once('../var/functions.php');
         
         <!-- <h1>MAJ une recette <?php echo($recipe['title']); ?></h1> -->
         
-        <form action="pages/post_update.php" method="POST">
+        <form action="./post_update.php" method="POST">
             <div class="mb-3 visually-hidden">
-                <label for="id" class="form-label">id de la recette</label>
-                <input type="hidden" class="from-control" id="id" name="id" value="<?php ;?>">
+                <label for="id_recipe" class="form-label">id de la recette</label>
+                <input type="hidden" class="from-control" id="id_recipe" name="id_recipe" value="<?php ;?>">
             </div>
             <div class="mb-3">
                 <label for="title">Titre de la recette</label>

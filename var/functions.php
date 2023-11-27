@@ -19,15 +19,11 @@ function checkUser(PDO $db, $userEmail, $userPassword): bool
 
         // Vérification si l'utilisateur a été trouvé et si le mot de passe est correct
         return $user['count(*)'];
-
-        } catch (Exception $e) {
+    } catch (Exception $e) {
         // En cas d'erreur, on affiche un message et on arrête tout
         die('Erreur execution requette dans la base de données : ' . $e->getMessage());
     }
 }
-
-
-//recuperation le tableau de recette dans la base de donnée
 
 function addRecipes(array $loggedUser, $recipeTitle, $description, PDO $db): void
 {
@@ -43,8 +39,7 @@ function addRecipes(array $loggedUser, $recipeTitle, $description, PDO $db): voi
             'author' => $loggedUser['email'],
             'is_enabled' => 1, // 1 = true, 0 = false
             'id_user' => getEmailIdUser($loggedUser['email'], $db),
-            ]);
-
+        ]);
     } catch (Exception $e) {
         // En cas d'erreur, on affiche un message et on arrête tout
         die('Erreur execution requette dans la base de données : ' . $e->getMessage());
@@ -62,7 +57,6 @@ function getAllRecipes(PDO $db): array
         $recipes = $getRecipes->fetchAll(PDO::FETCH_ASSOC);
 
         return $recipes;
-        
     } catch (Exception $e) {
         // En cas d'erreur, on affiche un message et on arrête tout
         die('Erreur execution requette dans la base de données : ' . $e->getMessage());
@@ -99,21 +93,19 @@ function getEmailIdUser($email, $db): int
 
         // Récupération des résultats sous forme d'un tableau associatif
         $results = $recipesStatement->fetchAll(PDO::FETCH_ASSOC);
-    
+
         return $results[0]['id_user'];
     } catch (Exception $e) {
         // En cas d'erreur, on affiche un message et on arrête tout
         die('Erreur execution requette dans la base de données : ' . $e->getMessage());
     }
-    
 }
-
 
 function deleteRecipe($db, $id_recipe)
 {
     $sql = 'DELETE FROM `recipes` WHERE id_recipe = :id_recipe';
     $deleteRecipe = $db->prepare($sql);
-    try { 
+    try {
         $deleteRecipe->execute([
             'id_recipe' => $id_recipe
         ]);
@@ -125,9 +117,28 @@ function deleteRecipe($db, $id_recipe)
     }
 }
 
-function editRecipe($recipeId, $newTitle, $newDescription, PDO $db): void
+function getRecipeById ($db, $id_recipe)
 {
-    $sqlQuery = 'UPDATE recipes SET title = :title, recipe = :recipe WHERE id = :id';
+    $sql = 'SELECT title, recipe FROM recipes WHERE id_recipe =:id_recipe';
+
+    // Préparation de la requête
+    $getRecipeById = $db->prepare($sql);
+
+    try {
+        // Exécution de la requête
+        $getRecipeById->execute([
+            'id_recipe' => $id_recipe['id'],
+            
+        ]);
+    } catch (Exception $e) {
+        // En cas d'erreur, lever une exception avec un message d'erreur
+        throw new RuntimeException('Erreur lors de la modification de la recette : ' . $e->getMessage());
+    }
+}
+
+function editRecipe($id_recipe, $newTitle, $newDescription, PDO $db): void
+{
+    $sqlQuery = 'UPDATE recipes SET title = :title, recipe = :recipe WHERE id_recipe = :id_recipe';
 
     // Préparation de la requête
     $editRecipe = $db->prepare($sqlQuery);
@@ -135,7 +146,7 @@ function editRecipe($recipeId, $newTitle, $newDescription, PDO $db): void
     try {
         // Exécution de la requête
         $editRecipe->execute([
-            'id' => $recipeId,
+            'id_recipe' => $id_recipe,
             'title' => $newTitle,
             'recipe' => $newDescription,
         ]);

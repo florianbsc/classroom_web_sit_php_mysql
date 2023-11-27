@@ -1,0 +1,22 @@
+<?php
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (isset($_POST['recipe_id'], $_POST['new_title'], $_POST['new_description'])) {
+        $recipeId = $_POST['recipe_id'];
+        $newTitle = $_POST['new_title'];
+        $newDescription = $_POST['new_description'];
+
+        // Appeler la fonction d'édition en utilisant les nouvelles données
+        editRecipe($recipeId, $newTitle, $newDescription, $db);
+
+        // Rediriger vers la page principale après la modification
+        header('Location: ../index.php');
+        exit();
+    } else {
+        // Gérer le cas où des données requises sont manquantes
+        echo 'Données de formulaire manquantes';
+    }
+} else {
+    // Gérer le cas où la page est accédée directement par l'utilisateur sans soumission de formulaire
+    echo 'Accès non autorisé';
+}
+?>
