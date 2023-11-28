@@ -85,7 +85,7 @@ if (isset($_SESSION['LOGGED_USER'])) {
 
 <?php else : ?>
     <div class="alert alert-success" role="alert">
-        Bonjour <?php echo ($loggedUser['email']); ?> et bienvenue sur le site !
+        Bonjour <?php echo ($loggedUser['email']); ?>
         <a href="logout.php" class="btn btn-danger">Déconnexion</a>
 
     </div>

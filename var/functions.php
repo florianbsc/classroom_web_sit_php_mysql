@@ -101,7 +101,7 @@ function getEmailIdUser($email, $db): int
     }
 }
 
-function deleteRecipe($db, $id_recipe)
+function deleteRecipeById($db, $id_recipe)
 {
     $sql = 'DELETE FROM `recipes` WHERE id_recipe = :id_recipe';
     $deleteRecipe = $db->prepare($sql);
@@ -142,7 +142,7 @@ function getRecipeById ($db, $id_recipe)
     }
 }
 
-function editRecipe($id_recipe, $newTitle, $newDescription, PDO $db): void
+function editRecipe(PDO $db, $Li_id_recipe, $Ls_title, $Ls_recipe): void
 {
     $sqlQuery = 'UPDATE recipes SET title = :title, recipe = :recipe WHERE id_recipe = :id_recipe';
 
@@ -152,9 +152,9 @@ function editRecipe($id_recipe, $newTitle, $newDescription, PDO $db): void
     try {
         // Exécution de la requête
         $editRecipe->execute([
-            'id_recipe' => $id_recipe,
-            'title' => $newTitle,
-            'recipe' => $newDescription,
+            'id_recipe' => $Li_id_recipe,
+            'title' => $Ls_title,
+            'recipe' =>  $Ls_recipe,
         ]);
     } catch (Exception $e) {
         // En cas d'erreur, lever une exception avec un message d'erreur

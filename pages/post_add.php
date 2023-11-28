@@ -8,24 +8,24 @@ include_once('../login.php');
 
 if (!isset($loggedUser)) {
     // Redirection vers /login.php
-    header("Location: /classroom_web_sit_php_mysql//login.php");
+    header("Location: ../login.php");
     exit(); // Assurez-vous d'utiliser exit() après la redirection pour éviter l'exécution ultérieure du script
 }
 
-
 $postData = $_POST;
 
-// fonction "isset" verifie l'exsitance d'un element
-if (!isset($postData['title']) || !isset($postData['recipe'])) {
+//verrification de l'existance des elements
+if (!isset($postData['title']) || !isset($postData['recipe'])) 
+{
     echo ('Il faut un titre et un message pour soumettre le formulaire.');
     return;
+
+} else {
+    $addTitle = $postData['title'];
+    $recipe = $postData['recipe'];
+    
+    addRecipes($loggedUser, $addTitle, $recipe, $db);
 }
-
-$addTitle = $postData['title'];
-
-$recipe = $postData['recipe'];
-
-addRecipes($loggedUser, $addTitle, $recipe, $db);
 
 ?>
 

@@ -4,15 +4,16 @@ session_start();
 include_once('../includes/header.php');
 include_once('../login.php');
 include_once('../config/mysql.php');
+include_once('../var/functions.php');
 
-$postData = $_POST;
-
-if (!isset($loggedUser) || !isset($postData['edit_title']))
+if (!isset($loggedUser))
 {
     // Redirection vers /login.php
-    header("Location: /classroom_web_sit_php_mysql/login.php");
+    header("Location: ../login.php");
     exit(); 
 }
+
+$postData = $_POST;
 
 //verrification de l'existance des elements qui vont etre modifié
 if (!isset($postData['id_recipe']) || !isset($postData['edit_title']) || !isset($postData['edit_recipe']))
@@ -21,16 +22,11 @@ if (!isset($postData['id_recipe']) || !isset($postData['edit_title']) || !isset(
     return;
 
 } else {
-    $Li_id_recipe = ($postData['id_recipe']);
-    $Ls_title = ($postData['edit_title']);
-    $Ls_recipe = ($postData['edit_recipe']);
+    $Li_id_recipe = $postData['id_recipe'];
+    $Ls_title = $postData['edit_title'];
+    $Ls_recipe = $postData['edit_recipe'];
     
-    $recupRecipe = $db->prepare("UPDATE recipes SET title = :title, recipe =:recipe WHERE id_recipe = :id_recipe");
-    $recupRecipe->execute([
-        'title' => $Ls_title,
-        'recipe' => $Ls_recipe,
-        'id_recipe' => $Li_id_recipe,
-    ]);
+    editRecipe($db, $Li_id_recipe, $Ls_title, $Ls_recipe);
 }
 ?>
 
