@@ -22,11 +22,11 @@ if (!isset($postData['id_recipe']) || !isset($postData['edit_title']) || !isset(
     return;
 
 } else {
-    $Li_id_recipe = $postData['id_recipe'];
-    $Ls_title = $postData['edit_title'];
-    $Ls_recipe = $postData['edit_recipe'];
+    $Gi_id_recipe = $postData['id_recipe'];
+    $Gs_title = $postData['edit_title'];
+    $Gs_recipe = $postData['edit_recipe'];
     
-    editRecipe($db, $Li_id_recipe, $Ls_title, $Ls_recipe);
+    editRecipe($db, $Gi_id_recipe, $Gs_title, $Gs_recipe);
 }
 ?>
 
@@ -48,8 +48,8 @@ if (!isset($postData['id_recipe']) || !isset($postData['edit_title']) || !isset(
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title">Rappel de vos informations</h5>
-                <p class="card-text"><b>Titre</b> : <?php echo ($Ls_title); ?></p>
-                <p class="card-text"><b>Description</b> : <?php echo strip_tags($Ls_recipe); ?></p>
+                <p class="card-text"><b>Titre</b> : <?php echo ($Gs_title); ?></p>
+                <p class="card-text"><b>Description</b> : <?php echo strip_tags($Gs_recipe); ?></p>
             </div>
         </div>
     </div>

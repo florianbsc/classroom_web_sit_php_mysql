@@ -24,7 +24,7 @@ if (!isset($postData['title']) || !isset($postData['recipe']))
     $addTitle = $postData['title'];
     $recipe = $postData['recipe'];
     
-    addRecipes($loggedUser, $addTitle, $recipe, $db);
+    addRecipes($db, $loggedUser, $addTitle, $recipe);
 }
 
 ?>

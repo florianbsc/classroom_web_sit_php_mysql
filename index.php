@@ -27,31 +27,55 @@
         include_once('./login.php');
             echo '<br>';
 
-            $allRecipes = getAllRecipes($db);
+
+            if (!isset($loggedUser)) 
+            {
+                $allRecipes = getAllRecipes($db);
+                
+                // Affichage des recettes
+                foreach ($allRecipes as $recipe) 
+                {
+                    echo 'Titre: ' . $recipe['title'] . '<br>';
+                    echo 'Recette: ' . $recipe['recipe'] . '<br><br>';
+                }
+            }
+             else { 
+
             echo '<a class="btn btn-success" aria-current="page" href="./pages/addrecipe.php">Add</a> <br> <br>';
+            
+            $recipesById_user = getRecipeById_user ($db, getEmailIdUser($db, $loggedUser['email']));
 
-            // Affichage des recettes
-            foreach ($allRecipes as $recipe) {
-                echo 'Titre: ' . $recipe['title'] . '<br>';
-                echo 'Recette: ' . $recipe['recipe'] . '<br><br>';
-                          
-                // Formulaire pour le bouton "Supp"
-                echo '<form action="./pages/delete.php" method="post">';
-                echo '<input type="hidden" name="id_recipe" value="' . $recipe['id_recipe'] . '">';
-                echo '<button type="submit" class="btn btn-danger">Supp</button>';
-                echo '</form>';
 
-                // Formulaire pour le bouton "Edit"
-                echo '<form action="./pages/update.php" method="post">';
-                echo '<input type="hidden" name="id_recipe" value="' . $recipe['id_recipe'] . '">';
-                echo '<button type="submit" class="btn btn-primary">Edit</button>';
-                echo '</form>';
+                // echo '<pre>';
+                // print_r($recipesById_user);
+                // // ou
+                // // var_dump($recipesById_user);
+                // echo '</pre>';
 
-                // echo '<a class="btn btn-danger" href="./pages/delete.php?id_recipe=' . $recipe['id_recipe'] . '">Supp</a> 
-                // <a class="btn btn-primary" href="./pages/update.php?id_recipe=' . $recipe['id_recipe'] . '">Edit</a>';
-
+            // $La_recipe "L" pour variable local "a" de type array (tableau) de nom recipe
+            foreach ($recipesById_user as $La_recipe) {
+                echo 'Titre: ' . $La_recipe['title'] . '<br>';
+                echo 'Recette: ' . $La_recipe['recipe'] . '<br><br>';
+            
+              
+                    // Formulaire pour le bouton "Supp"
+                    echo '<form action="./pages/delete.php" method="post">';
+                    echo '<input type="hidden" name="id_recipe" value="' . $La_recipe['id_recipe'] . '">';
+                    echo '<button type="submit" class="btn btn-danger">Supp</button>';
+                    echo '</form>';
+            
+                    // Formulaire pour le bouton "Edit"
+                    echo '<form action="./pages/update.php" method="post">';
+                    echo '<input type="hidden" name="id_recipe" value="' . $La_recipe['id_recipe'] . '">';
+                    echo '<button type="submit" class="btn btn-primary">Edit</button>';
+                    echo '</form>';
+                
+            
                 echo '<br><br>';
             }
+            
+                      
+        }
         ?>
 
     </div>

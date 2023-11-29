@@ -7,7 +7,7 @@ include_once('../config/mysql.php');
 $postData = $_POST;
 
 
-if (!isset($postData['id_recipe']) && is_numeric($postData['id_recipe']))
+if (!isset($postData['id_recipe']) || is_numeric($postData['id_recipe']))
 {
     echo('il faut un identifiant de reccette pour la modifier. ');
     return;

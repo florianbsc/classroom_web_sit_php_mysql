@@ -22,7 +22,7 @@ if (isset($userEmail) &&  isset($userPassword)) {
             $loggedUser['email'],
             //$loggedUser['name'],
             [
-                'expires' => time() + 360,
+                'expires' => time() + 10,
                 'secure' => true,
                 'httponly' => true,
             ]

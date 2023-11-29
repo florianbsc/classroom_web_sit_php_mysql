@@ -17,6 +17,8 @@ $recupRecipe = getRecipeById($db, $postData['id_recipe']);
 if (!$recupRecipe) {
     // Gérer le cas où la recette n'est pas trouvée
     echo 'Recette non trouvée';
+
+    exit();
 }
 
 ?>
