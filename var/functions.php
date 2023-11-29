@@ -1,9 +1,29 @@
 <?php
 // functions.php
-//verivication de la validité de la recette
+//verivication de la exsitance de l'utilisateur
 
+function checkUser(PDO $db, $userEmail, $userPassword): bool
+{
+    $sql = "SELECT count(*) FROM users WHERE email = :email AND password = :password";
+    $stmt = $db->prepare($sql);
 
-//recuperation le tableau de recette dans la base de donnée
+    try {
+        // Exécution de la requête
+        $stmt->execute([
+            'email' => $userEmail,
+            'password' => $userPassword,
+        ]);
+
+        // Récupération des résultats
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        // Vérification si l'utilisateur a été trouvé et si le mot de passe est correct
+        return $user['count(*)'];
+    } catch (Exception $e) {
+        // En cas d'erreur, on affiche un message et on arrête tout
+        die('Erreur execution requette dans la base de données : ' . $e->getMessage());
+    }
+}
 
 function addRecipes(array $loggedUser, $recipeTitle, $description, PDO $db): void
 {
@@ -12,47 +32,53 @@ function addRecipes(array $loggedUser, $recipeTitle, $description, PDO $db): voi
     // Préparation
     $addRecipe = $db->prepare($sqlQuery);
 
-    // Exécution ! La recette est maintenant en base de données
-    $addRecipe->execute([
-        'title' => $recipeTitle,
-        'recipe' => $description,
-        'author' => $loggedUser['email'],
-        'is_enabled' => 1, // 1 = true, 0 = false
-        'id_user' => getEmailIdUser($loggedUser['email'], $db),
-    ]);
+    try {
+        $addRecipe->execute([
+            'title' => $recipeTitle,
+            'recipe' => $description,
+            'author' => $loggedUser['email'],
+            'is_enabled' => 1, // 1 = true, 0 = false
+            'id_user' => getEmailIdUser($loggedUser['email'], $db),
+        ]);
+    } catch (Exception $e) {
+        // En cas d'erreur, on affiche un message et on arrête tout
+        die('Erreur execution requette dans la base de données : ' . $e->getMessage());
+    }
 }
 
 function getAllRecipes(PDO $db): array
 {
-  
     $sqlQuery = 'SELECT * FROM `recipes`';
     $getRecipes = $db->prepare($sqlQuery);
-    $getRecipes->execute();
+    try {
+        $getRecipes->execute();
 
-    // Récupère toutes les recettes de la base de données
-    $recipes = $getRecipes->fetchAll(PDO::FETCH_ASSOC);
+        // Récupère toutes les recettes de la base de données
+        $recipes = $getRecipes->fetchAll(PDO::FETCH_ASSOC);
 
-    return $recipes;
-    
+        return $recipes;
+    } catch (Exception $e) {
+        // En cas d'erreur, on affiche un message et on arrête tout
+        die('Erreur execution requette dans la base de données : ' . $e->getMessage());
+    }
 }
-
-
 
 function getRecipes(PDO $db, array $loggedUser, array $recipes): array
 {
-
     $sqlQuery = 'SELECT * FROM `recipes` WHERE id_user = :id_user ;';
-
     $getRecipes = $db->prepare($sqlQuery);
 
-    $getRecipes->execute([
-        'id_user' => $loggedUser['email'],
-    ]);
+    try {
+        $getRecipes->execute(['id_user' => $loggedUser['email']]);
 
-    // Récupère toutes les recettes liées à l'utilisateur
-    $recipes = $getRecipes->fetchAll(PDO::FETCH_ASSOC);
+        // Récupère toutes les recettes liées à l'utilisateur
+        $recipes = $getRecipes->fetchAll(PDO::FETCH_ASSOC);
 
-    return $recipes;
+        return $recipes;
+    } catch (Exception $e) {
+        // En cas d'erreur, on affiche un message et on arrête tout
+        die('Erreur execution requette dans la base de données : ' . $e->getMessage());
+    }
 }
 
 function getEmailIdUser($email, $db): int
@@ -62,37 +88,76 @@ function getEmailIdUser($email, $db): int
     $recipesStatement = $db->prepare($sqlQuery);
 
     // Exécution de la requête avec le paramètre email de la session
-    $recipesStatement->execute(['email' =>  $email]);
+    try {
+        $recipesStatement->execute(['email' =>  $email]);
 
-    // Récupération des résultats sous forme d'un tableau associatif
-    $results = $recipesStatement->fetchAll(PDO::FETCH_ASSOC);
+        // Récupération des résultats sous forme d'un tableau associatif
+        $results = $recipesStatement->fetchAll(PDO::FETCH_ASSOC);
 
-    return $results[0]['id_user'];
+        return $results[0]['id_user'];
+    } catch (Exception $e) {
+        // En cas d'erreur, on affiche un message et on arrête tout
+        die('Erreur execution requette dans la base de données : ' . $e->getMessage());
+    }
 }
 
-// function isValidRecipe(array $recipe): bool
-// {
-//     if (array_key_exists('is_enabled', $recipe)) {
-//         $isEnabled = $recipe['is_enabled'];
-//     } else {
-//         $isEnabled = false;
-//     }
+function deleteRecipeById($db, $id_recipe)
+{
+    $sql = 'DELETE FROM `recipes` WHERE id_recipe = :id_recipe';
+    $deleteRecipe = $db->prepare($sql);
+    try {
+        $deleteRecipe->execute([
+            'id_recipe' => $id_recipe
+        ]);
+        echo ('la recette a bien été effacé');
+        return;
+    } catch (Exception $e) {
+        // En cas d'erreur, on affiche un message et on arrête tout
+        die('Erreur execution requette dans la base de données : ' . $e->getMessage());
+    }
+}
 
-//     return $isEnabled;
-// }
+function getRecipeById ($db, $id_recipe)
+{
+    $sql = 'SELECT title, recipe FROM recipes WHERE id_recipe =:id_recipe';
 
-// //affichage de la recette valide
-// function display_recipe(array $recipe): string
-// {
-//     $recipe_content = '';
+    // Préparation de la requête
+    $getRecipeById = $db->prepare($sql);
 
-//     if ($recipe['is_enabled']) {
-//         $recipe_content = '<article>';
-//         $recipe_content .= '<h3>' . $recipe['title'] . '</h3>';
-//         $recipe_content .= '<div>' . $recipe['recipe'] . '</div>';
-//         $recipe_content .= '<i>' . $recipe['author'] . '</i>';
-//         $recipe_content .= '</article>';
-//     }
+    try {
+        // Exécution de la requête
+        $getRecipeById->execute([
+            'id_recipe' => $id_recipe,
+            
+        ]);
 
-//     return $recipe_content;
-// }
+        // Récupération des résultats
+        $result = $getRecipeById->fetch(PDO::FETCH_ASSOC);
+
+        // Retourne les résultats
+        return $result;
+    } catch (Exception $e) {
+        // En cas d'erreur, lever une exception avec un message d'erreur
+        throw new RuntimeException('Erreur lors de la modification de la recette : ' . $e->getMessage());
+    }
+}
+
+function editRecipe(PDO $db, $Li_id_recipe, $Ls_title, $Ls_recipe): void
+{
+    $sqlQuery = 'UPDATE recipes SET title = :title, recipe = :recipe WHERE id_recipe = :id_recipe';
+
+    // Préparation de la requête
+    $editRecipe = $db->prepare($sqlQuery);
+
+    try {
+        // Exécution de la requête
+        $editRecipe->execute([
+            'id_recipe' => $Li_id_recipe,
+            'title' => $Ls_title,
+            'recipe' =>  $Ls_recipe,
+        ]);
+    } catch (Exception $e) {
+        // En cas d'erreur, lever une exception avec un message d'erreur
+        throw new RuntimeException('Erreur lors de la modification de la recette : ' . $e->getMessage());
+    }
+}

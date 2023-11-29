@@ -2,31 +2,32 @@
 session_start();
 
 include_once('../includes/header.php');
+include_once('../login.php');
+include_once('../config/mysql.php');
+include_once('../var/functions.php');
+
+if (!isset($loggedUser))
+{
+    // Redirection vers /login.php
+    header("Location: ../login.php");
+    exit(); 
+}
 
 $postData = $_POST;
 
 //verrification de l'existance des elements qui vont etre modifié
-if (!isset($postData['id']) || !isset($postData['title']) || !isset('recipe'))
+if (!isset($postData['id_recipe']) || !isset($postData['edit_title']) || !isset($postData['edit_recipe']))
 {
-    echo ('Ilmanque des informations pour permettre l\'édition du formulaire.');
+    echo ('Il manque des informations pour permettre l\'édition du formulaire.');
     return;
+
+} else {
+    $Li_id_recipe = $postData['id_recipe'];
+    $Ls_title = $postData['edit_title'];
+    $Ls_recipe = $postData['edit_recipe'];
+    
+    editRecipe($db, $Li_id_recipe, $Ls_title, $Ls_recipe);
 }
-
-$id = ($postData['id']);
-$title = ($postData['title']);
-$recipe = ($postData['recipe']);
-
-$recupRecipe = $mysqlClien->prepare("UPDATE recipes SET title = :titel, recipe =:recipe WHERE recipe_id = :id");
-$recupRecipe->execute([
-    'title' => $title,
-    'recipe' => $recipe,
-    'id' => $id,
-]);
-
-
-
-
-
 ?>
 
 <!DOCTYPE html>
@@ -42,13 +43,13 @@ $recupRecipe->execute([
     <div class="container">
 
         <?php include_once('../includes/header.php'); ?>
-        <h1>Message bien reçu !</h1>
+        <h1>Le message à bien été modifié !</h1>
 
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title">Rappel de vos informations</h5>
-                <p class="card-text"><b>Titre</b> : <?php echo ($editRecipe); ?></p>
-                <p class="card-text"><b>Description</b> : <?php echo strip_tags($description); ?></p>
+                <p class="card-text"><b>Titre</b> : <?php echo ($Ls_title); ?></p>
+                <p class="card-text"><b>Description</b> : <?php echo strip_tags($Ls_recipe); ?></p>
             </div>
         </div>
     </div>

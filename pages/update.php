@@ -1,25 +1,25 @@
 <?php session_start(); 
+include_once('../var/functions.php');
+include_once('../config/mysql.php');
 
-$egtData = $_GET;
+// a remplacer par une fonction
+$postData = $_POST;
 
-if (!isset($egtData['id']) && is_numeric($egtData['id']))
+
+if (!isset($postData['id_recipe']) && is_numeric($postData['id_recipe']))
 {
     echo('il faut un identifiant de reccette pour la modifier. ');
     return;
 }
 
-$recupRecipe = $mysqlClien->prepare('SELECT * FROM recipes WHERE recipe_id :id');
-$recupRecipe->execute([
-    'id' => $getData['id'],
-]);
+$recupRecipe = getRecipeById($db, $postData['id_recipe']);
 
-$recipe = $recupRecipe->fetch(PDO::FETCH_ASSOC);
+if (!$recupRecipe) {
+    // Gérer le cas où la recette n'est pas trouvée
+    echo 'Recette non trouvée';
+}
 
 ?>
-<!-- index.php -->
-
-
-
 
 <!DOCTYPE html>
 <html>
@@ -34,27 +34,30 @@ $recipe = $recupRecipe->fetch(PDO::FETCH_ASSOC);
 
 <body class="d-flex flex-column min-vh-100">
     <div class="container">
-        <?php include_once($rootPatch. 'includes/header.php'); ?>
-        <h1>MAJ une recette <?php echo($recipe['title']); ?></h1>
+        <?php include_once('../includes/header.php'); ?>
+     <!-- Afficher le formulaire de modification avec les données existantes -->
+
+        <h1>MAJ une recette</h1>
+        <!-- <h1>MAJ une recette <?php echo($recipe['title']); ?></h1> -->
         
-        <form action="<?php echo($rootUrl . 'pages/post_update.php'); ?>" method="POST">
+        <form action="./post_update.php" method="POST">
             <div class="mb-3 visually-hidden">
-                <label for="id" class="form-label">id de la recette</label>
-                <input type="hidden" class="from-control" id="id" name="id" value="<?php ;?>">
+                <label for="id_recipe" class="form-label">id de la recette</label>
+                <input type="hidden" class="from-control" id="id_recipe" name="id_recipe" value="<?php echo $postData['id_recipe']; ?>">
             </div>
             <div class="mb-3">
                 <label for="title">Titre de la recette</label>
-                <input type="text" class="form-control" id="title" name="title">
+                <input type="text" class="form-control" id="edit_title" name="edit_title" value="<?php echo $recupRecipe['title']; ?>">
                 <div id="title" class="form-text">Choisisez un titre percutant</div>
             </div>
             <div class="mb-3">
-                <label for="description" class="form-label">Desciption de la rectte</label>
-                <textarea class="form-control" placeholder="Seuelement du contenu vous appartenent ou libre de droits" id="description" name="description"></textarea>
+                <label for="edit_recipe" class="form-label">Desciption de la rectte</label>
+                <textarea class="form-control" placeholder="Seuelement du contenu vous appartenent ou libre de droits" id="edit_recipe" name="edit_recipe"><?php echo $recupRecipe['recipe']; ?></textarea>
             </div>
-            <button type="submit" class="btn btn-primary">Envoyer</button>
+            <button type="submit" class="btn btn-primary">Modifier</button>
         </form>
 
     </div>
-    <?php include_once('includes/footer.php');?>
+    <?php include_once('../includes/footer.php');?>
 </body>
 </html>

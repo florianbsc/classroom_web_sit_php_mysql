@@ -22,32 +22,36 @@
         ?>
 
         <h1>Site de recettes</h1>
+    
+        <?php
+        include_once('./login.php');
+            echo '<br>';
 
-        <?php include_once('login.php'); ?> <br>
-        <div>
-            <ul>
-                <li>
-                    <a class="btn btn-success" aria-current="page" href="./pages/addrecipe.php">Add</a>
-                </li>
-                <li>
-                    <a class="btn btn-danger" href="./pages/delete.php">Supp</a>
-                </li>
-                <li>
-                    <a class="btn btn-primary" href="./pages/update.php">Edit</a>
-                </li>
-            </ul>
-        </div>
-        <?php 
             $allRecipes = getAllRecipes($db);
+            echo '<a class="btn btn-success" aria-current="page" href="./pages/addrecipe.php">Add</a> <br> <br>';
 
             // Affichage des recettes
-            foreach ($allRecipes as $recipe) 
-                {
-                    echo 'Titre: ' . $recipe['title'] . '<br>';
-                    echo 'Recette: ' . $recipe['recipe'] . '<br>';
-                    // ... autres détails de la recette ...
-                    echo '<br>';
-                }
+            foreach ($allRecipes as $recipe) {
+                echo 'Titre: ' . $recipe['title'] . '<br>';
+                echo 'Recette: ' . $recipe['recipe'] . '<br><br>';
+                          
+                // Formulaire pour le bouton "Supp"
+                echo '<form action="./pages/delete.php" method="post">';
+                echo '<input type="hidden" name="id_recipe" value="' . $recipe['id_recipe'] . '">';
+                echo '<button type="submit" class="btn btn-danger">Supp</button>';
+                echo '</form>';
+
+                // Formulaire pour le bouton "Edit"
+                echo '<form action="./pages/update.php" method="post">';
+                echo '<input type="hidden" name="id_recipe" value="' . $recipe['id_recipe'] . '">';
+                echo '<button type="submit" class="btn btn-primary">Edit</button>';
+                echo '</form>';
+
+                // echo '<a class="btn btn-danger" href="./pages/delete.php?id_recipe=' . $recipe['id_recipe'] . '">Supp</a> 
+                // <a class="btn btn-primary" href="./pages/update.php?id_recipe=' . $recipe['id_recipe'] . '">Edit</a>';
+
+                echo '<br><br>';
+            }
         ?>
 
     </div>

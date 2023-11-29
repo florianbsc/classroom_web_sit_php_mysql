@@ -11,7 +11,7 @@ if (isset($_COOKIE['LOGGED_USER'])) {
     setcookie('LOGGED_USER', null, -1, '/');
 }
 
-// Rediriger vers la page de connexion ou une autre page de votre choix
-header('Location: index.php'); // Remplacez 'login.php' par la page vers laquelle vous souhaitez rediriger après la déconnexion
+// Rediriger vers la page de connexion
+header('Location: index.php');
 exit();
 ?>

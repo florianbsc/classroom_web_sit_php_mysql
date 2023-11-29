@@ -1,23 +1,31 @@
 <?php
 session_start();
 
-$postData = $_POST;
 include_once('../includes/header.php');
-
-// fonction "isset" verifie l'exsitance d'un element
-if (!isset($postData['addRecipe']) || !isset($postData['description'])) {
-    echo ('Il faut un titre et un message pour soumettre le formulaire.');
-    return;
-}
-
-$addRecipe = $postData['addRecipe'];
-$description = $postData['description'];
-
 include_once('../config/mysql.php');
 include_once('../var/functions.php');
 include_once('../login.php');
 
-$recipes = addRecipes($loggedUser, $addRecipe, $description, $db);
+if (!isset($loggedUser)) {
+    // Redirection vers /login.php
+    header("Location: ../login.php");
+    exit(); // Assurez-vous d'utiliser exit() après la redirection pour éviter l'exécution ultérieure du script
+}
+
+$postData = $_POST;
+
+//verrification de l'existance des elements
+if (!isset($postData['title']) || !isset($postData['recipe'])) 
+{
+    echo ('Il faut un titre et un message pour soumettre le formulaire.');
+    return;
+
+} else {
+    $addTitle = $postData['title'];
+    $recipe = $postData['recipe'];
+    
+    addRecipes($loggedUser, $addTitle, $recipe, $db);
+}
 
 ?>
 
@@ -39,8 +47,8 @@ $recipes = addRecipes($loggedUser, $addRecipe, $description, $db);
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title">Rappel de vos informations</h5>
-                <p class="card-text"><b>Titre</b> : <?php echo ($addRecipe); ?></p>
-                <p class="card-text"><b>Description</b> : <?php echo strip_tags($description); ?></p>
+                <p class="card-text"><b>Titre</b> : <?php echo ($addTitle); ?></p>
+                <p class="card-text"><b>Recette</b> : <?php echo strip_tags($recipe); ?></p>
             </div>
         </div>
     </div>
