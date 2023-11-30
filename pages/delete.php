@@ -50,7 +50,7 @@ if (!$recupRecipe) {
                     <p class="card-text"><b>Recette</b> : <?php echo $recupRecipe['recipe']; ?></p>
                 </div>
             </div>
-            
+
             <button type="submit" class="btn btn-danger">Supp définitive</button>
         </form>
 

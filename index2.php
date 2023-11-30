@@ -42,32 +42,32 @@
              else { 
 
             echo '<a class="btn btn-success" aria-current="page" href="./pages/addrecipe.php">Add</a>';
-            echo '<a class="btn btn-primary" aria-current="page" href="./index2.php">Voir mes recettes</a> <br> <br>';
+            echo '<a class="btn btn-primary" aria-current="page" href="./index.php">Voir toutes les recettes</a> <br> <br>';
             
-            $allRecipes = getAllRecipes($db);
+            $recipesById_user = getRecipeById_user ($db, getEmailIdUser($db, $loggedUser['email']));
 
 
             // $La_recipe "L" pour variable local "a" de type array (tableau) de nom recipe
-            foreach ($allRecipes as $La_recipe) {
+            foreach ($recipesById_user as $La_recipe) {
                 echo 'Titre: ' . $La_recipe['title'] . '<br>';
                 echo 'Recette: ' . $La_recipe['recipe'] . '<br><br>';
             
-            }
-            //         // Formulaire pour le bouton "Supp"
-            //         echo '<form action="./pages/delete.php" method="post">';
-            //         echo '<input type="hidden" name="id_recipe" value="' . $La_recipe['id_recipe'] . '">';
-            //         echo '<button type="submit" class="btn btn-danger">Supp</button>';
-            //         echo '</form>';
+              
+                    // Formulaire pour le bouton "Supp"
+                    echo '<form action="./pages/delete.php" method="post">';
+                    echo '<input type="hidden" name="id_recipe" value="' . $La_recipe['id_recipe'] . '">';
+                    echo '<button type="submit" class="btn btn-danger">Supp</button>';
+                    echo '</form>';
             
-            //         // Formulaire pour le bouton "Edit"
-            //         echo '<form action="./pages/update.php" method="post">';
-            //         echo '<input type="hidden" name="id_recipe" value="' . $La_recipe['id_recipe'] . '">';
-            //         echo '<button type="submit" class="btn btn-primary">Edit</button>';
-            //         echo '</form>';
+                    // Formulaire pour le bouton "Edit"
+                    echo '<form action="./pages/update.php" method="post">';
+                    echo '<input type="hidden" name="id_recipe" value="' . $La_recipe['id_recipe'] . '">';
+                    echo '<button type="submit" class="btn btn-primary">Edit</button>';
+                    echo '</form>';
                 
             
-            //     echo '<br><br>';
-            // }
+                echo '<br><br>';
+            }
             
                       
         }
